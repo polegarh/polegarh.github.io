@@ -39,26 +39,16 @@ html.lenis, html.lenis body { height: auto; }
 .cd-fallback { position: absolute; inset: 0; z-index: 0; background: var(--cd-bg); }
 .cd-fallback img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 56%; display: block; }
 
-/* the glazing bars: grey silicone-sealed frame, like a steam-room door */
+/* the photo has its own wooden frame; this only darkens the edges a little */
 .cd-frame {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
   transform-origin: 50% 56%;
-  box-shadow: inset 0 0 0 var(--cd-bar) var(--cd-steel), inset 0 0 0 calc(var(--cd-bar) + 1px) rgba(255, 255, 255, 0.28), inset 0 0 0 calc(var(--cd-bar) + 3px) rgba(120, 124, 128, 0.35), inset 0 0 60px rgba(24, 26, 28, 0.25);
+  box-shadow: inset 0 0 60px rgba(24, 26, 28, 0.25);
   will-change: transform, opacity;
 }
-.cd-bar {
-  position: absolute;
-  border-radius: var(--cd-bar);
-  background: linear-gradient(90deg, #5f6367, #b4b8bb 42%, #8d9195 60%, #63676b);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.22), 0 0 3px 1px rgba(140, 144, 148, 0.55), 0 0 16px rgba(24, 26, 28, 0.28);
-}
-.cd-bar--v1, .cd-bar--v2 { top: 0; bottom: 0; width: var(--cd-bar); }
-.cd-bar--v1 { left: calc(33.33% - var(--cd-bar) / 2); }
-.cd-bar--v2 { left: calc(66.66% - var(--cd-bar) / 2); }
-.cd-bar--h { left: 0; right: 0; top: 31%; height: var(--cd-bar); background: linear-gradient(180deg, #b4b8bb, #8d9195 55%, #5f6367); }
 
 /* the squeegee (its bottom edge is the line the glass is cleared to) */
 .cd-blade { position: absolute; left: 0; right: 0; top: 0; height: 0; z-index: 3; pointer-events: none; visibility: hidden; will-change: transform; }
@@ -218,9 +208,6 @@ html.lenis, html.lenis body { height: auto; }
 
 /* ----------------------------------------------------------- responsive */
 @media (max-width: 700px) {
-  .cd-bar--v1 { left: calc(50% - var(--cd-bar) / 2); }
-  .cd-bar--v2 { display: none; }
-  .cd-bar--h { top: 25%; }
   .cd-top { grid-template-columns: 1fr auto; }
   .cd-top__c { display: none; }
   .cd-head { top: calc(25% + 20px); bottom: auto; font-size: clamp(44px, 12.5vw, 64px); }

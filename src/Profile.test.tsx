@@ -25,6 +25,12 @@ describe('Profile', () => {
     for (const org of ['Cypris AI', 'Total Expert', 'Gumroad', 'CNA Insurance']) expect(found).toContain(org)
   })
 
+  it('sends people to the writing and the code', () => {
+    const hrefs = new Set([...html.matchAll(/href="([^"]+)"/g)].map((m) => m[1]))
+    for (const url of ['https://olegpuchkov.substack.com/', 'https://medium.com/@PuchkovOleg', 'https://github.com/polegarh'])
+      expect(hrefs).toContain(url)
+  })
+
   // The source PDF carries a mobile number; the public page must never.
   it('publishes no phone number', () => {
     const text = html.replace(/<[^>]+>/g, ' ')

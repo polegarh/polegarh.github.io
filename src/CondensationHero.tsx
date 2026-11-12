@@ -356,11 +356,7 @@ export default function CondensationHero() {
             </div>
           )}
 
-          <div className="cd-frame" aria-hidden="true">
-            <i className="cd-bar cd-bar--v1" />
-            <i className="cd-bar cd-bar--v2" />
-            <i className="cd-bar cd-bar--h" />
-          </div>
+          <div className="cd-frame" aria-hidden="true" />
 
           <div ref={bladeRef} className="cd-blade" aria-hidden="true">
             <i className="cd-blade__handle" />

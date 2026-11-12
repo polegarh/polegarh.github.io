@@ -33,6 +33,42 @@ const SIDE_PROJECTS = [
   },
 ]
 
+const FACTS = [
+  ['Day job', 'Senior engineer at Cypris AI, teaching an agent to do client research on its own.'],
+  ['Side quest', 'Founding father of Budget & Chill.'],
+  ['Leadership training', 'Coaching sports teams. Honestly, more than any job.'],
+  ['Pet peeve', 'Meetings that could have been a decision.'],
+  ['Fluent in', 'English, Russian, and roasting my friends in Instagram captions. A model does that for me now.'],
+  ['Happy place', '90 °C, felt hat on, phone outside.'],
+]
+
+const ELSEWHERE = [
+  {
+    href: 'https://olegpuchkov.substack.com/',
+    kicker: 'Writing',
+    name: 'Substack',
+    handle: 'olegpuchkov.substack.com',
+    body: 'Personal thoughts, stories, passion projects and everything in between. Subscribe and it lands in your inbox.',
+    cta: 'Subscribe',
+  },
+  {
+    href: 'https://medium.com/@PuchkovOleg',
+    kicker: 'The archive',
+    name: 'Medium',
+    handle: '@PuchkovOleg',
+    body: 'Older writing from earlier in my career, before the newsletter.',
+    cta: 'Read',
+  },
+  {
+    href: 'https://github.com/polegarh',
+    kicker: 'Code',
+    name: 'GitHub',
+    handle: '@polegarh',
+    body: 'Two dozen public repos going back to college, from a Lisp compiler in Scala to iOS apps, plus the source of this site, fog engine included.',
+    cta: 'Browse',
+  },
+]
+
 export default function Profile() {
   return (
     <div className="pf">
@@ -61,23 +97,46 @@ export default function Profile() {
 
       <section className="pf-block" aria-labelledby="pf-about">
         <h2 id="pf-about" className="pf-h">About</h2>
-        <div className="pf-prose">
-          <p>
-            I build production systems end to end: data pipeline, backend, frontend. I’ve shipped across all of them,
-            mostly inside companies where the stakes are real users and real revenue, and it shows up as paying clients
-            and growth tied to what I built.
-          </p>
-          <p>
-            I’ve led teams, managed projects and mentored engineers. A lot of that came from coaching and leading sports
-            teams, not just from work. I’m comfortable owning client relationships and turning business needs into
-            technical roadmaps. I just don’t love meetings that could have been a decision.
-          </p>
-          <p>
-            With AI doing more of the typing, I think in systems and outcomes and direct the work, then go deep and get
-            hands-on when it counts. A product-focused generalist who wants to get things done, which is why startups fit
-            me.
-          </p>
+        <div>
+          <div className="pf-prose">
+            <p>
+              I build production systems end to end. <em>Then I go sit in a sauna.</em>
+            </p>
+            <p>
+              Data pipeline, backend, frontend: I’ve shipped across all of them, mostly where the stakes are real users
+              and real revenue. I’ve led teams, mentored engineers and owned client relationships. These days AI does more
+              of the typing, so I think in systems and outcomes, direct the work, and still go deep when it counts. A
+              product-focused generalist who wants to get things done, which is why startups fit me.
+            </p>
+          </div>
+          <dl className="pf-fun">
+            {FACTS.map(([k, v]) => (
+              <div key={k}>
+                <dt>{k}</dt>
+                <dd>{v}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
+      </section>
+
+      <section className="pf-block" aria-labelledby="pf-elsewhere">
+        <h2 id="pf-elsewhere" className="pf-h">Find me elsewhere</h2>
+        <ul className="pf-elsewhere">
+          {ELSEWHERE.map((l) => (
+            <li key={l.name}>
+              <a href={l.href} target="_blank" rel="noopener">
+                <span className="pf-elsewhere__kicker">{l.kicker}</span>
+                <span className="pf-elsewhere__name">{l.name}</span>
+                <span className="pf-elsewhere__handle">{l.handle}</span>
+                <span className="pf-elsewhere__body">{l.body}</span>
+                <span className="pf-elsewhere__cta">
+                  {l.cta} <span aria-hidden="true">↗</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section className="pf-block" aria-labelledby="pf-side">
@@ -135,6 +194,8 @@ export default function Profile() {
           <li><a href="mailto:polegarh@gmail.com">Email</a></li>
           <li><a href="https://www.linkedin.com/in/puchkovoleg" target="_blank" rel="noopener">LinkedIn</a></li>
           <li><a href="https://github.com/polegarh" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://olegpuchkov.substack.com/" target="_blank" rel="noopener">Substack</a></li>
+          <li><a href="https://medium.com/@PuchkovOleg" target="_blank" rel="noopener">Medium</a></li>
           <li><a href="https://budgetchill.app" target="_blank" rel="noopener">Budget &amp; Chill</a></li>
         </ul>
         <p className="pf-soft">© Oleg Puchkov · New York</p>
