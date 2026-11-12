@@ -3,11 +3,10 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
 import { GlassEngine } from './GlassEngine'
+import { FOG, SHARP } from './photos'
+import { SaunaSound, levelFor, wantsSound } from './SaunaSound'
 
 gsap.registerPlugin(ScrollTrigger)
-
-const SHARP = new URL('./assets/greenhouse.webp', import.meta.url).href
-const FOG = new URL('./assets/greenhouse-fog.webp', import.meta.url).href
 
 const smooth = (a: number, b: number, v: number) => {
   const t = Math.max(0, Math.min(1, (v - a) / (b - a)))
@@ -16,6 +15,22 @@ const smooth = (a: number, b: number, v: number) => {
 const sweepOf = (p: number) => smooth(0.1, 0.48, p)
 const zoomOf = (p: number) => 1 + 0.35 * smooth(0.55, 0.92, p)
 const CLEARED_AT = 0.52
+const SOUND_PREF = 'sauna-sound'
+
+function readSoundPref() {
+  try {
+    return localStorage.getItem(SOUND_PREF)
+  } catch {
+    return null
+  }
+}
+function writeSoundPref(v: 'on' | 'off') {
+  try {
+    localStorage.setItem(SOUND_PREF, v)
+  } catch {
+    /* private mode: the toggle still works for this visit */
+  }
+}
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(
@@ -50,6 +65,10 @@ export default function CondensationHero() {
   const stRef = useRef<ScrollTrigger | null>(null)
   const progressRef = useRef(0)
   const writeRef = useRef(0)
+  const soundRef = useRef<SaunaSound | null>(null)
+  const sweepRef = useRef(0)
+  const clearFracRef = useRef(0)
+  const [soundOn, setSoundOn] = useState(() => wantsSound(readSoundPref()))
   const reduced = usePrefersReducedMotion()
 
   const [state, setState] = useState<'loading' | 'ready' | 'nogl' | 'error'>('loading')
@@ -62,6 +81,8 @@ export default function CondensationHero() {
     const h = stage?.clientHeight ?? 800
     const s = sweepOf(p)
     const y = -40 + (h + 80) * s
+    sweepRef.current = s
+    soundRef.current?.setLevel(levelFor(s, clearFracRef.current))
     if (bladeRef.current) {
       bladeRef.current.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`
       bladeRef.current.style.visibility = s > 0 && s < 1 ? 'visible' : 'hidden'
@@ -89,6 +110,8 @@ export default function CondensationHero() {
         engineRef.current = engine
         engine.reduced = reduced
         engine.onClear = (f) => {
+          clearFracRef.current = f
+          soundRef.current?.setLevel(levelFor(sweepRef.current, f))
           if (clearRef.current) clearRef.current.textContent = `${String(Math.round(f * 100)).padStart(2, '0')}%`
         }
         engine.resize(stage.clientWidth, stage.clientHeight)
@@ -158,6 +181,37 @@ export default function CondensationHero() {
   useEffect(() => {
     if (engineRef.current) engineRef.current.reduced = reduced
   }, [reduced, state])
+
+  /* ------------------------------------------------ sound */
+  useEffect(() => {
+    const sound = new SaunaSound()
+    soundRef.current = sound
+    sound.setLevel(levelFor(sweepRef.current, clearFracRef.current))
+    // on by default, but most browsers hold audio until a gesture; the first click, tap or key releases it
+    if (wantsSound(readSoundPref())) sound.start()
+    const onGesture = (e: Event) => {
+      if (e.target instanceof Element && e.target.closest('.cd-sound')) return
+      off()
+      if (wantsSound(readSoundPref())) sound.start()
+    }
+    const events = ['pointerdown', 'keydown', 'touchend'] as const
+    const off = () => events.forEach((t) => window.removeEventListener(t, onGesture))
+    events.forEach((t) => window.addEventListener(t, onGesture))
+    return () => {
+      off()
+      sound.dispose()
+      soundRef.current = null
+    }
+  }, [])
+
+  const toggleSound = () => {
+    const sound = soundRef.current
+    if (!sound) return
+    if (sound.playing) sound.stop()
+    else sound.start()
+    writeSoundPref(sound.playing ? 'on' : 'off')
+    setSoundOn(sound.playing)
+  }
 
   /* ------------------------------------------------ wiping */
   useEffect(() => {
@@ -318,6 +372,9 @@ export default function CondensationHero() {
             <span className="cd-top__c">Engineer, <em>New York</em></span>
             <span className="cd-top__r">
               Glass clear <b ref={clearRef}>00%</b>
+              <button type="button" className="cd-sound" aria-pressed={soundOn} onClick={toggleSound}>
+                {soundOn ? 'Sound on' : 'Sound off'}
+              </button>
             </span>
           </header>
 
