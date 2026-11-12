@@ -1,0 +1,77 @@
+/* The profile below the fogged window: same palette, paper instead of glass */
+.pf {
+  position: relative;
+  z-index: 1;
+  background: var(--cd-paper);
+  color: var(--cd-ink);
+  padding: clamp(56px, 9vw, 140px) clamp(16px, 4vw, 64px) clamp(40px, 5vw, 72px);
+}
+.pf > * { max-width: 1100px; margin-left: auto; margin-right: auto; }
+.pf a { color: inherit; }
+.pf em { font-style: italic; }
+.pf-soft { color: var(--cd-soft); }
+
+.pf-kicker, .pf-h {
+  margin: 0 0 18px;
+  font: 500 10.5px/1.4 var(--cd-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.pf-kicker::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: 10px; background: var(--cd-lime); outline: 1px solid var(--cd-ink); }
+
+.pf-feature { padding-bottom: clamp(48px, 7vw, 100px); border-bottom: 1px solid var(--cd-rule); scroll-margin-top: 24px; }
+.pf-feature__title { margin: 0; font: 400 clamp(56px, 11vw, 168px)/0.88 var(--cd-serif); letter-spacing: -0.04em; }
+.pf-feature__title a { text-decoration: none; background-image: linear-gradient(var(--cd-lime), var(--cd-lime)); background-size: 0 0.28em; background-position: 0 88%; background-repeat: no-repeat; transition: background-size 0.4s ease; }
+.pf-feature__title a:hover, .pf-feature__title a:focus-visible { background-size: 100% 0.28em; }
+.pf-feature__lede { margin: 22px 0 28px; font: 400 clamp(22px, 2.6vw, 34px)/1.2 var(--cd-serif); font-style: italic; color: var(--cd-soft); }
+.pf-feature__cols { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 4vw, 56px); max-width: 900px; margin: 0 0 32px; }
+.pf-feature__cols p { margin: 0; font-size: 16px; line-height: 1.6; }
+
+.pf-btn {
+  display: inline-block;
+  padding: 13px 18px;
+  border: 1px solid var(--cd-ink);
+  border-radius: 999px;
+  font: 500 10.5px/1 var(--cd-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.25s ease;
+}
+.pf-btn:hover { background: var(--cd-lime); }
+.pf a:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; }
+
+.pf-block { padding: clamp(40px, 6vw, 80px) 0; border-bottom: 1px solid var(--cd-rule); display: grid; grid-template-columns: 200px 1fr; gap: 24px; }
+.pf-block > .pf-h { padding-top: 6px; }
+
+.pf-prose { max-width: 680px; }
+.pf-prose p { margin: 0 0 1em; font-size: 17px; line-height: 1.65; }
+.pf-prose p:first-child { font: 400 clamp(24px, 2.4vw, 32px)/1.25 var(--cd-serif); }
+
+.pf-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.pf-card { padding: 22px; border: 1px solid var(--cd-rule); border-radius: 14px; background: rgba(205, 213, 203, 0.35); }
+.pf-card h3 { margin: 0 0 10px; font: 400 24px/1.15 var(--cd-serif); }
+.pf-card p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--cd-soft); }
+
+.pf-exp { list-style: none; margin: 0; padding: 0; }
+.pf-exp li { padding: 0 0 26px; margin: 0 0 26px; border-bottom: 1px dashed var(--cd-rule); }
+.pf-exp li:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
+.pf-exp h3 { margin: 0 0 8px; font: 400 30px/1.1 var(--cd-serif); }
+.pf-exp__role { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; margin: 0 0 4px; font-size: 15px; }
+.pf-exp__meta { font: 500 11px/1.6 var(--cd-mono); letter-spacing: 0.06em; color: var(--cd-soft); }
+.pf-exp__note { max-width: 640px; margin: 10px 0 0; font-size: 15px; line-height: 1.55; color: var(--cd-soft); }
+
+.pf-facts { grid-template-columns: 1fr 1fr; }
+.pf-facts p { margin: 0 0 14px; font-size: 16px; line-height: 1.5; }
+
+.pf-foot { padding-top: clamp(48px, 7vw, 96px); }
+.pf-foot__title { margin: 0 0 20px; font: 400 clamp(48px, 8vw, 120px)/0.9 var(--cd-serif); letter-spacing: -0.035em; }
+.pf-links { list-style: none; margin: 0 0 40px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.pf-links a { display: inline-block; padding: 11px 16px; border: 1px solid var(--cd-rule); border-radius: 999px; font: 500 10.5px/1 var(--cd-mono); letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; }
+.pf-links a:hover { background: var(--cd-lime); border-color: var(--cd-lime); }
+.pf-foot > .pf-soft { margin: 0; font: 500 10.5px/1 var(--cd-mono); letter-spacing: 0.14em; text-transform: uppercase; }
+
+@media (max-width: 700px) {
+  .pf-feature__cols, .pf-cards, .pf-facts, .pf-block { grid-template-columns: 1fr; }
+  .pf-block { gap: 8px; }
+}
